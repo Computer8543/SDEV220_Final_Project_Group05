@@ -45,6 +45,7 @@ class gui(tk.Tk):
         self.equal_button = tk.Button(self.buttons_frame, text = "=", foreground= "black", width = 10, height = 3, bd = 0, bg = "#eee", cursor = "hand2", command= lambda: self.button_equal()).grid(row = 0, column = 5, padx = 1, pady = 1)
         self.nine_button = tk.Button(self.buttons_frame, text = "9", foreground= "black", width = 10, height = 3, bd = 0, bg = "#eee", cursor = "hand2", command= lambda: self.button_click(9)).grid(row = 0, column = 4, padx = 1, pady = 1)
         self.eight_button = tk.Button(self.buttons_frame, text = "8", foreground= "black", width = 10, height = 3, bd = 0, bg = "#eee", cursor = "hand2", command= lambda: self.button_click(8)).grid(row = 0, column = 3, padx = 1, pady = 1)
+        self.seven_button = tk.Button(self.buttons_frame, text = "7", foreground= "black", width = 10, height = 3, bd = 0, bg = "#eee", cursor = "hand2", command= lambda: self.button_click(7)).grid(row = 0, column = 2, padx = 1, pady = 1)
         
         # begin mainloop
         self.mainloop()
@@ -93,7 +94,8 @@ class gui(tk.Tk):
         
         
         try:
-            result = str(eval(expression[index]))
+            expression[index] = self.equation.get()
+            result = eval(str(expression[index]))
             if index < 9:
                 index += 1
             else:
