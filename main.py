@@ -1,16 +1,20 @@
 import tkinter as tk
-from tkinter import ttk
+
+
+# expression is used to hold the whole line of data
+expression: list[str] = [""]
+        
+# index is used to hold the index of the data
+index: int = 0
+
+# equation is the name of the StringVar() object, and thus will display on the input box of the calculator
+equation: str = ""
 
 class gui(tk.Tk):
     """ Meant to act as the GUI of the calculator.
     """
-    def __init__(self, expression, index):
+    def __init__(self):
         super().__init__()
-        # expression is used to hold the whole line of data
-        self.expression: list[str] = expression
-        
-        # index is used to hold the index of the data
-        self.index: int = index
         
         # Title of window
         self.title("Mario's Italian Restaurant Calculator")
@@ -19,16 +23,33 @@ class gui(tk.Tk):
         # To prevent you from resizing the window
         self.resizable(0,0) 
         
-     
-       
-
-class memory(gui):
-    """ Meant to store and validate data inputted into the calculator
-    """
-    def __init__(self, expression, index):
-        super().__init__(expression, index)
         
-    def press_up(self, expression: list[str], index: int) -> list[str]:
+        
+        # Main input window frame
+        self.input_window = tk.Frame(self, width=480, height=100, bd=0, highlightbackground="black", highlightcolor="black", highlightthickness=2)
+        self.input_window.pack(side="top")
+        
+        # initialize input_text variable 
+        self.input_text: str = tk.StringVar(self.input_window, "", equation)
+        
+        
+        # Input field where the expression text goes
+        self.input_field = tk.Label(self.input_window, font=('times new roman', 20, 'bold'), text=self.input_text, width=50, bg="#eee", bd=2, justify='right')
+        self.input_field.grid(row=0, column=0)
+        self.input_field.pack(ipady=10)
+        self.input_field.focus_set()
+        
+        
+        # create frame for buttons 
+        self.buttons_frame = tk.Frame(self, width=640, height=540, bd=0, highlightbackground="black", highlightcolor="black", highlightthickness=2)
+        self.buttons_frame.pack()
+        
+        self.equal_button = tk.Button(self.buttons_frame, text = "=", foreground= "black", width = 10, height = 3, bd = 0, bg = "#eee", cursor = "hand2", command=self.button_equal()).grid(row = 0, column = 5, padx = 1, pady = 1)
+        self.nine_button = tk.Button(self.buttons_frame, text = "9", foreground= "black", width = 10, height = 3, bd = 0, bg = "#eee", cursor = "hand2", command=self.button_click(9)).grid(row = 0, column = 4, padx = 1, pady = 1)
+        
+        
+        
+    def press_up(self) -> list[str]:
         """ When you press the up button, it goes back 1 in the index unless it is equal to or less than 0, where the index stops at 0 to prevent an out of bounds error
 
         Args:
@@ -38,9 +59,11 @@ class memory(gui):
         Returns:
             list[str]: The expression in the (index minus 1) unless the index is equal to or less than 0, else it would be zero
         """
+        global expression
+        global index
         return expression[((index - 1) if index > 0 else 0)]
     
-    def press_down(self, expression: list[str], index: int) -> list[str]:
+    def press_down(self) -> list[str]:
         """When you press the down button, it goes forward 1 in the index unless it is equal to or greater than 9, where it will default to 9 to save space
 
         Args:
@@ -50,35 +73,12 @@ class memory(gui):
         Returns:
             list[str]: The expression in the (index plus 1) unless the index is equal to or greater than 9, else it defaults to 9 to save space in memory
         """
+        global expression
+        global index
         return expression[((index + 1) if index < 9 else 9)]
     
-class calculation(memory):
-    """ Meant to store various functions called by GUI to calculate.
-    """
-    def __init__(self, expression, index):
-        super().__init__(expression, index)
-        # initialize input_text variable as well as two math and storage classes within this class
-        self.input_text: str = ""
-        
-        # Main input window frame
-        self.input_window = tk.Frame(self, width=480, height=100, bd=0, highlightbackground="black", highlightcolor="black", highlightthickness=2)
-        self.input_window.pack(side="top")
-        
-        # Input field where the expression text goes
-        self.input_field = tk.Entry(self.input_window, font=('times new roman', 20, 'bold'), textvariable=self.input_text, width=50, bg="#eee", bd=0, justify='right')
-        self.input_field.grid(row=0, column=0)
-        self.input_field.pack(ipady=10)
-        
-        # create frame for buttons 
-        self.buttons_frame = tk.Frame(self, width=640, height=540, bd=0, highlightbackground="black", highlightcolor="black", highlightthickness=2)
-        self.buttons_frame.pack(side="bottom")
-        
-        # create first row of buttons
-        self.equal_button = tk.Button(self.buttons_frame, text = "=", foreground= "black", width = 10, height = 3, bd = 0, bg = "#eee", cursor = "hand2", command=self.button_equal(self.expression, self.index)).grid(row = 0, column = 5, padx = 1, pady = 1)
-        
     
-    
-    def button_equal(self, expression: list[str], index: int) -> None:
+    def button_equal(self) -> None:
         """ We find what number the expression is equal to and add 1 to the index if it doesn't create an error, else make an error message
 
         Args:
@@ -86,39 +86,54 @@ class calculation(memory):
             result (str): The end result of the mathematical expression
             index (int): The index of the expression
         """
+        global expression
+        global index
+        global equation
+        
         try:
             result = str(eval(expression[index]))
-            self.input_text = result
-            index += 1
+            equation = result
             return
         except:
             self.input_text = " error "
             expression[index] = ""
-            
-    def button_click(self, expression: list[str], index: int, input: str) -> None:
+            return
+        
+    def button_click(self, input) -> str:
         """ We add the input to the expression through string concatenation
 
         Args:
             expression (list[str]): 1 index is a whole line of numbers and symbols inputted into the calculator, up to 10 lines total.
-            input (str): The symbol inputted by pushing the button.
+            input (str): The symbol inputted into the function
             index (int): The index of the expression
         """
+        global expression
+        global index
+        global equation
+        
         expression[index] = expression[index] + str(input)
-        self.input_text = expression[index]
-        return 
+        equation = expression[index]
+        return equation
     
-    def button_clear(self, expression: list[str], index: int) -> None:
+    def button_clear(self) -> None:
         """ We clear the input of the expression through creating an empty string as the input
 
         Args:
             expression (list[str]): 1 index is a whole line of numbers and symbols inputted into the calculator, up to 10 lines total.
             index (int): The index of the expression
         """
+        global expression
+        global index
+        
         expression[index] = ""
         self.input_text = ""
-        return  
+        return
       
+      
+     
+       
+
 # start calculation class
-begin = calculation([""], 0)
+begin = gui()
 
 begin.mainloop()
