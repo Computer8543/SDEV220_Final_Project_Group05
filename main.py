@@ -42,10 +42,38 @@ class gui(tk.Tk):
         self.buttons_frame.pack()
         
         # first row of buttons
-        self.equal_button = tk.Button(self.buttons_frame, text = "=", foreground= "black", width = 10, height = 3, bd = 0, bg = "#eee", cursor = "hand2", command= lambda: self.button_equal()).grid(row = 0, column = 5, padx = 1, pady = 1)
-        self.nine_button = tk.Button(self.buttons_frame, text = "9", foreground= "black", width = 10, height = 3, bd = 0, bg = "#eee", cursor = "hand2", command= lambda: self.button_click(9)).grid(row = 0, column = 4, padx = 1, pady = 1)
-        self.eight_button = tk.Button(self.buttons_frame, text = "8", foreground= "black", width = 10, height = 3, bd = 0, bg = "#eee", cursor = "hand2", command= lambda: self.button_click(8)).grid(row = 0, column = 3, padx = 1, pady = 1)
-        self.seven_button = tk.Button(self.buttons_frame, text = "7", foreground= "black", width = 10, height = 3, bd = 0, bg = "#eee", cursor = "hand2", command= lambda: self.button_click(7)).grid(row = 0, column = 2, padx = 1, pady = 1)
+        
+        self.left_parenthesis_button = tk.Button(self.buttons_frame, text = "(", foreground= "black", width = 10, height = 3, bd = 0, bg = "#eee", cursor = "hand2", command= lambda: self.button_click("(")).grid(row = 0, column = 3, padx = 1, pady = 1)
+        self.right_parenthesis_button = tk.Button(self.buttons_frame, text = ")", foreground= "black", width = 10, height = 3, bd = 0, bg = "#eee", cursor = "hand2", command= lambda: self.button_click(")")).grid(row = 0, column = 4, padx = 1, pady = 1)
+        # fix up and down buttons
+        self.up_button = tk.Button(self.buttons_frame, text = "Up", foreground= "black", width = 10, height = 3, bd = 0, bg = "#eee", cursor = "hand2", command= lambda: self.press_up()).grid(row = 0, column = 2, padx = 1, pady = 1)
+        self.down_button = tk.Button(self.buttons_frame, text = "Down", foreground= "black", width = 10, height = 3, bd = 0, bg = "#eee", cursor = "hand2", command= lambda: self.press_down()).grid(row = 0, column = 1, padx = 1, pady = 1)
+        self.division_button = tk.Button(self.buttons_frame, text = "/", foreground= "black", width = 10, height = 3, bd = 0, bg = "#eee", cursor = "hand2", command= lambda: self.button_click("/")).grid(row = 0, column = 5, padx = 1, pady = 1)
+        
+        # second row of buttons
+        self.nine_button = tk.Button(self.buttons_frame, text = "9", foreground= "black", width = 10, height = 3, bd = 0, bg = "#eee", cursor = "hand2", command= lambda: self.button_click(9)).grid(row = 1, column = 4, padx = 1, pady = 1)
+        self.eight_button = tk.Button(self.buttons_frame, text = "8", foreground= "black", width = 10, height = 3, bd = 0, bg = "#eee", cursor = "hand2", command= lambda: self.button_click(8)).grid(row = 1, column = 3, padx = 1, pady = 1)
+        self.seven_button = tk.Button(self.buttons_frame, text = "7", foreground= "black", width = 10, height = 3, bd = 0, bg = "#eee", cursor = "hand2", command= lambda: self.button_click(7)).grid(row = 1, column = 2, padx = 1, pady = 1)
+        self.exponentation_button = tk.Button(self.buttons_frame, text = "**", foreground= "black", width = 10, height = 3, bd = 0, bg = "#eee", cursor = "hand2", command= lambda: self.button_click("**")).grid(row = 1, column = 1, padx = 1, pady = 1)
+        self.multiplication_button = tk.Button(self.buttons_frame, text = "*", foreground= "black", width = 10, height = 3, bd = 0, bg = "#eee", cursor = "hand2", command= lambda: self.button_click("*")).grid(row = 1, column = 5, padx = 1, pady = 1)
+        
+        # third row of buttons
+        self.clear_button = tk.Button(self.buttons_frame, text = "Clear", foreground= "black", width = 10, height = 3, bd = 0, bg = "#eee", cursor = "hand2", command= lambda: self.button_clear()).grid(row = 2, column = 1, padx = 1, pady = 1) 
+        self.four_button = tk.Button(self.buttons_frame, text = "4", foreground= "black", width = 10, height = 3, bd = 0, bg = "#eee", cursor = "hand2", command= lambda: self.button_click(4)).grid(row = 2, column = 2, padx = 1, pady = 1)
+        self.five_button = tk.Button(self.buttons_frame, text = "5", foreground= "black", width = 10, height = 3, bd = 0, bg = "#eee", cursor = "hand2", command= lambda: self.button_click(5)).grid(row = 2, column = 3, padx = 1, pady = 1)
+        self.six_button = tk.Button(self.buttons_frame, text = "6", foreground= "black", width = 10, height = 3, bd = 0, bg = "#eee", cursor = "hand2", command= lambda: self.button_click(6)).grid(row = 2, column = 4, padx = 1, pady = 1)
+        self.subtraction_button = tk.Button(self.buttons_frame, text = "-", foreground= "black", width = 10, height = 3, bd = 0, bg = "#eee", cursor = "hand2", command= lambda: self.button_click("-")).grid(row = 2, column = 5, padx = 1, pady = 1)
+        
+        # fourth row of buttons
+        self.one_button = tk.Button(self.buttons_frame, text = "1", foreground= "black", width = 10, height = 3, bd = 0, bg = "#eee", cursor = "hand2", command= lambda: self.button_click(1)).grid(row = 3, column = 2, padx = 1, pady = 1)
+        self.two_button = tk.Button(self.buttons_frame, text = "2", foreground= "black", width = 10, height = 3, bd = 0, bg = "#eee", cursor = "hand2", command= lambda: self.button_click(2)).grid(row = 3, column = 3, padx = 1, pady = 1)
+        self.three_button = tk.Button(self.buttons_frame, text = "3", foreground= "black", width = 10, height = 3, bd = 0, bg = "#eee", cursor = "hand2", command= lambda: self.button_click(3)).grid(row = 3, column = 4, padx = 1, pady = 1)
+        self.addition_button = tk.Button(self.buttons_frame, text = "+", foreground= "black", width = 10, height = 3, bd = 0, bg = "#eee", cursor = "hand2", command= lambda: self.button_click("+")).grid(row = 3, column = 5, padx = 1, pady = 1)
+        
+        # fifth row of buttons
+        self.zero_button = tk.Button(self.buttons_frame, text = "0", foreground= "black", width = 10, height = 3, bd = 0, bg = "#eee", cursor = "hand2", command= lambda: self.button_click(0)).grid(row = 4, column = 2, padx = 1, pady = 1)
+        self.decimal_point_button = tk.Button(self.buttons_frame, text = ".", foreground= "black", width = 10, height = 3, bd = 0, bg = "#eee", cursor = "hand2", command= lambda: self.button_click(".")).grid(row = 4, column = 3, padx = 1, pady = 1)
+        self.equal_button = tk.Button(self.buttons_frame, text = "=", foreground= "black", width = 10, height = 3, bd = 0, bg = "#eee", cursor = "hand2", command= lambda: self.button_equal()).grid(row = 4, column = 5, padx = 1, pady = 1) 
         
         # begin mainloop
         self.mainloop()
