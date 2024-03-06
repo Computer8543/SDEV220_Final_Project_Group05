@@ -90,7 +90,7 @@ class gui(tk.Tk):
         """
         global expression
         global index
-        return expression[((index - 1) if index > 0 else 0)]
+        return self.equation.set(expression[((index - 1) if index > 0 else 0)])
     
     def press_down(self) -> list[str]:
         """When you press the down button, it goes forward 1 in the index unless it is equal to or greater than 9, where it will default to 9 to save space
@@ -104,7 +104,7 @@ class gui(tk.Tk):
         """
         global expression
         global index
-        return expression[((index + 1) if index < 9 else 9)]
+        return self.equation.set(expression[((index + 1) if index < 9 else 9)])
     
     
     def button_equal(self) -> str:
